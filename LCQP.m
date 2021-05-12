@@ -1,4 +1,4 @@
-function [ primalSteps, dualSteps, fVals, RVals, exitflag, auxOutput, iter, k ] = LCQP(Q, g, A, lb, ub, lbA, ubA, L, R, params)
+function [ primalSteps, dualSteps, fVals, RVals, exitflag, auxOutput, iter, k ] = LCQP(Q, g, L, R, A, lbA, ubA, lb, ub, params)
 %% Input Consistency
 [nx, nc, ncomp] = PerformInputConsistencyTest(Q, g, A, lb, ub, lbA, ubA, L, R);
 
