@@ -167,9 +167,9 @@ if (exitflag ~= 0)
     return;
 end
 
-% Begin with full step
+% Begin with full step (x0 is stored in primalSteps)
 alpha = 1;
-pk = xk - params.x0;
+pk = xk - primalSteps;
 
 % Get duals
 lam_xk = lk(1:length(xk));
