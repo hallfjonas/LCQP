@@ -39,8 +39,8 @@ end
 
 % Initial penalty parameter
 Rk = 1;
-if (isfield(params, 'R0'))
-    Rk = params.R0;
+if (isfield(params, 'initialPenaltyParameter'))
+    Rk = params.initialPenaltyParameter;
     assert(Rk > 0);
 end
 
@@ -52,9 +52,9 @@ if (isfield(params, 'solveZeroPenaltyFirst'))
 end
 
 % Penalty update rule
-penaltyUpdater = @(R) 2*R;
-if (isfield(params, 'penaltyUpdater'))
-    penaltyUpdater = params.penaltyUpdater;
+beta = 2;
+if (isfield(params, 'penaltyUpdateFactor'))
+    beta = params.penaltyUpdateFactor;
 end
 
 % Penalty parameter value required to break the iteration.
@@ -66,16 +66,16 @@ end
 
 % Maximum number of total iterations.
 maxIter = 100000;
-if (isfield(params, 'maxIter'))
-    maxIter = params.maxIter;
+if (isfield(params, 'maxIterations'))
+    maxIter = params.maxIterations;
     assert(maxIter > 0);
 end
 
 % Print output
 printStats = false;
-if (isfield(params, 'printStats'))
-    printStats = params.printStats;
-    assert(islogical(printStats));
+if (isfield(params, 'printLevel'))
+    assert(isnumeric(params.printLevel));
+    printStats = params.printLevel >= 1;
 end
 
 % Switch to sparse matrices
@@ -231,7 +231,7 @@ while ( true )
         % Update penalty parameter
         k = k + 1;
         i = 0;
-        Rk = penaltyUpdater(Rk);
+        Rk = beta*Rk;
     end
     if (iter > maxIter)
         disp('Maximum number of iterations reached. Exiting without convergence');
